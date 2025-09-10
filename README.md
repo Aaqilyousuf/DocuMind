@@ -51,44 +51,53 @@ DocuMind is a powerful AI-driven document management and interaction platform th
 
 ### Prerequisites
 
-- **Docker** and **Docker Compose**
+- **Docker** and **Docker Compose** (Recommended)
+- **Node.js** (v16 or higher) - if running manually
+- **Python** (v3.8 or higher) - if running manually
 - **Git**
 
-### 1. Clone and Setup
+### 🐳 Docker Setup (Recommended)
+
+The easiest way to get DocuMind running is with Docker:
 
 ```bash
-# Clone the repository
+# 1. Clone the repository
 git clone <repository-url>
 cd DocuMind
 
-# Create environment file
+# 2. Setup environment variables
 cp .env.example .env
-# Edit .env with your API keys
-```
+# Edit .env with your API keys (see Environment Variables section below)
 
-### 2. Run with Docker (Recommended)
-
-```bash
-# Build and start all services
+# 3. Start everything with Docker
 docker-compose up --build
 
 # Or run in background
 docker-compose up -d --build
 ```
 
-### 3. Access the Application
-
+**That's it!** Your application will be running at:
 - **Frontend**: http://localhost:3000
 - **Backend API**: http://localhost:5000
 
-### 4. Stop Services
-
 ```bash
-# Stop all services
+# To stop services
 docker-compose down
+
+# To view logs
+docker-compose logs -f
+
+# To restart services
+docker-compose restart
 ```
 
-### Alternative: Manual Setup
+### 🔧 Manual Setup (Alternative)
+
+If you prefer to run without Docker:
+
+### 💻 Manual Setup (Alternative)
+
+If you prefer to run without Docker:
 
 #### Backend Setup
 
@@ -123,6 +132,10 @@ npm install
 # Start development server
 npm run dev
 ```
+
+**Access the application:**
+- Frontend: http://localhost:5173 (Vite dev server)
+- Backend: http://localhost:5000
 
 ## 🔧 Environment Variables
 
@@ -163,7 +176,11 @@ APPWRITE_BUCKET_ID=your_appwrite_bucket_id_here
 
 ```
 DocuMind/
+├── docker-compose.yml          # Docker configuration
+├── .env.example               # Environment variables template
+├── README.md                  # This file
 ├── docuMind_client/          # React Frontend
+│   ├── Dockerfile            # Frontend container setup
 │   ├── src/
 │   │   ├── components/       # UI Components
 │   │   │   ├── ui/          # Reusable UI components
@@ -179,6 +196,7 @@ DocuMind/
 │   └── vite.config.ts
 │
 ├── docuMind_server/          # Flask Backend
+│   ├── Dockerfile            # Backend container setup
 │   ├── app/
 │   │   ├── routes/          # API Routes
 │   │   │   ├── upload.py    # File upload endpoints
@@ -197,6 +215,62 @@ DocuMind/
 │   └── .env.example
 │
 └── README.md                # This file
+```
+
+## 🐳 Docker Development
+
+### Docker Setup Details
+
+DocuMind uses Docker for easy development setup. The configuration includes:
+
+- **Backend Container**: Python 3.11 with Flask development server
+- **Frontend Container**: Node.js 18 with Vite development server  
+- **Hot Reload**: Both containers support live code changes
+- **Volume Mounts**: Source code is mounted for instant updates
+
+### Docker Commands
+
+```bash
+# Start all services
+docker-compose up
+
+# Build and start (after code changes)
+docker-compose up --build
+
+# Run in background
+docker-compose up -d
+
+# View logs
+docker-compose logs -f
+
+# View specific service logs
+docker-compose logs -f backend
+docker-compose logs -f frontend
+
+# Stop all services
+docker-compose down
+
+# Restart services
+docker-compose restart
+
+# Access container shell
+docker-compose exec backend bash
+docker-compose exec frontend sh
+```
+
+### Docker Troubleshooting
+
+```bash
+# Rebuild containers from scratch
+docker-compose down
+docker-compose build --no-cache
+docker-compose up
+
+# Clean up Docker resources
+docker system prune -f
+
+# Check container status
+docker-compose ps
 ```
 
 ## 🔄 API Endpoints
@@ -251,9 +325,34 @@ DocuMind/
 
 ## 🚨 Troubleshooting
 
-### Common Issues
+### Docker Issues
 
-1. **Import Errors**
+1. **Port Conflicts**
+   ```bash
+   # If ports 3000 or 5000 are in use, edit docker-compose.yml:
+   ports:
+     - "3001:3000"  # Frontend
+     - "5001:5000"  # Backend
+   ```
+
+2. **Container Build Failures**
+   ```bash
+   # Clean rebuild
+   docker-compose down
+   docker-compose build --no-cache
+   docker-compose up
+   ```
+
+3. **Volume Mount Issues**
+   ```bash
+   # On Windows, ensure drive sharing is enabled in Docker Desktop
+   # On Linux, check file permissions
+   sudo chown -R $USER:$USER .
+   ```
+
+### Application Issues
+
+1. **Import Errors (Manual Setup)**
    ```bash
    # Make sure you're in the virtual environment
    pip install -r requirements.txt
@@ -275,7 +374,16 @@ DocuMind/
 
 ### Debug Mode
 
-Enable debug mode by setting environment variables:
+**With Docker:**
+```bash
+# View detailed logs
+docker-compose logs -f
+
+# Access container for debugging
+docker-compose exec backend bash
+```
+
+**Manual Setup:**
 ```bash
 export FLASK_DEBUG=1
 export FLASK_ENV=development

@@ -1,0 +1,14 @@
+flask
+python-dotenv
+pypdf2
+python-docx
+pinecone-client
+langchain
+groq
+requests
+pinecone
+sentence-transformers
+einops
+appwrite
+transformers
+torch

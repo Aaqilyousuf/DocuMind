@@ -16,7 +16,7 @@ export function Footer() {
           <div className="flex items-center gap-2">
             <Button variant="ghost" size="sm" asChild>
               <a
-                href="https://github.com"
+                href="https://github.com/Aaqilyousuf/DocuMind"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2"

@@ -412,3 +412,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 **Happy document chatting! 🎉**
 
 For support or questions, please open an issue in the repository.
+
+Note: The hosted site includes only the frontend (UI). The backend isn’t hosted because it uses the Nomic open-source local embedding model. However, you can clone this repo and follow the Docker setup steps to run both frontend and backend locally.

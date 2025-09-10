@@ -51,19 +51,46 @@ DocuMind is a powerful AI-driven document management and interaction platform th
 
 ### Prerequisites
 
-- **Node.js** (v16 or higher)
-- **Python** (v3.8 or higher)
-- **npm** or **yarn**
+- **Docker** and **Docker Compose**
 - **Git**
 
-### 1. Clone the Repository
+### 1. Clone and Setup
 
 ```bash
+# Clone the repository
 git clone <repository-url>
 cd DocuMind
+
+# Create environment file
+cp .env.example .env
+# Edit .env with your API keys
 ```
 
-### 2. Backend Setup
+### 2. Run with Docker (Recommended)
+
+```bash
+# Build and start all services
+docker-compose up --build
+
+# Or run in background
+docker-compose up -d --build
+```
+
+### 3. Access the Application
+
+- **Frontend**: http://localhost:3000
+- **Backend API**: http://localhost:5000
+
+### 4. Stop Services
+
+```bash
+# Stop all services
+docker-compose down
+```
+
+### Alternative: Manual Setup
+
+#### Backend Setup
 
 ```bash
 # Navigate to server directory
@@ -71,25 +98,20 @@ cd docuMind_server
 
 # Create virtual environment
 python -m venv venv
-
-# Activate virtual environment
-# Windows:
-venv\Scripts\activate
-# macOS/Linux:
-source venv/bin/activate
+source venv/bin/activate  # or venv\Scripts\activate on Windows
 
 # Install dependencies
 pip install -r requirements.txt
 
 # Setup environment variables
 cp .env.example .env
-# Edit .env with your API keys (see Environment Variables section)
+# Edit .env with your API keys
 
 # Run the server
 python app/main.py
 ```
 
-### 3. Frontend Setup
+#### Frontend Setup
 
 ```bash
 # Navigate to client directory (in new terminal)
@@ -101,11 +123,6 @@ npm install
 # Start development server
 npm run dev
 ```
-
-### 4. Access the Application
-
-- **Frontend**: http://localhost:5173
-- **Backend API**: http://localhost:5000
 
 ## 🔧 Environment Variables
 

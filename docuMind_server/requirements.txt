@@ -12,3 +12,4 @@ einops
 appwrite
 transformers
 torch
+flask-cors
